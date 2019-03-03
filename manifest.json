@@ -4,9 +4,8 @@
 	
 	"version": "1",
 	"manifest_version": 2,
-	
 	"content_scripts": [{
-		"matches": ["https://tv.so-net.ne.jp/*"],
+		"matches": [ "https://tv.so-net.ne.jp/schedulesBySearch.*", "https://tv.so-net.ne.jp/schedule/*" ],
 		"js": ["content_script.js"]
 	}]
 }

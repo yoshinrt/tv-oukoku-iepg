@@ -1,5 +1,5 @@
 ﻿/*
-●テレビ王国番組サーチの html ソース
+●テレビ王国番組サーチの html ソース (検索)
 
 <div class="contBlockNB">
 	<div  id="schedule-200101201903032100">
@@ -17,6 +17,9 @@
 			</span>
 		</div>
 	</div>
+
+●テレビ王国番組サーチの html ソース (1番組)
+
 
 ● .tvpid フォーマット 参考: https://350ml.net/labo/iepg2.html
 */
@@ -411,10 +414,7 @@ function OverwriteSearchList(){
 	for( var i = 0; i < ProgElements.length; ++i ){
 		var ErrorMsg = '';
 		
-		var Prog = {
-			"Content-type": "application/x-tv-program-digital-info; charset=utf-8",
-			version: 2
-		};
+		var Prog = IepgHeader();
 		
 		var AElements = ProgElements[ i ].getElementsByTagName( 'a' );
 		
@@ -431,56 +431,108 @@ function OverwriteSearchList(){
 		if(
 			( DateTimeCh = ProgElements[ i ].getElementsByClassName( "utileListProperty" )) &&
 			( DateTimeCh = DateTimeCh[ 0 ]) &&
-			( DateTimeCh = DateTimeCh.textContent ) &&
-			DateTimeCh.match( /(\d+)\/(\d+).*?(\d+):(\d+).*?(\d+):(\d+).*?\n\s*(.*)/ )
+			( DateTimeCh = DateTimeCh.textContent )
 		){
-			Prog[ 'station-name' ]	= RegExp.$7;
-			Prog.station	= ''; // 暫定
-			Prog.year		= ''; // 暫定
-			Prog.month		= FormatNum( RegExp.$1 );
-			Prog.date		= FormatNum( RegExp.$2 );
-			Prog.start		= FormatNum( RegExp.$3 ) + ":" + FormatNum( RegExp.$4 );
-			Prog.end		= FormatNum( RegExp.$5 ) + ":" + FormatNum( RegExp.$6 );
-			
-			// year 設定
-			var ProgTime	= new Date();
-			Prog.year		= ProgTime.getYear() + 1900;
-			ProgTime.setMonth( Prog.month );	// 本来 -1 だが，年月日が 1ヶ月以上過去なら，来年の月日とみなす
-			ProgTime.setDate( Prog.date );
-			
-			if( ProgTime < ( new Date )) ++Prog.year;
-			
-			// Station ID 取得
-			Prog[ 'station-name' ] = Prog[ 'station-name' ]
-				.replace( /^\s+/, '' )
-				.replace( /\s*\(Ch\.\d+\)\s*$/, '' )
-				.replace( /\s+$/, '' );
-			
-			var Id = GetServiceID( Prog[ 'station-name' ]);
-			if( Id ){
-				Prog.station	= Id;
-			}else{
-				ErrorMsg = "「" + Prog[ 'station-name' ] + "」の Service ID が不明です";
-				console.error( ErrorMsg );
-			}
+			SetProgNameDate( Prog, DateTimeCh, ErrorMsg );
 		}else{
 			ErrorMsg = "HTML フォーマットを認識できません";
 		}
 		
 		// 「おまかせ」を iEPG ボタンに変更
-		for( var j = 0; j < AElements.length; ++j ){
-			if( AElements[ j ].getAttribute( 'title' ) == 'おまかせ!番組サーチを設定' ){
-				AElements[ j ].textContent	= ErrorMsg ? ( "!!! Error !!! " + ErrorMsg ) : '【iEPG】';
-				AElements[ j ].download		= 'iepg.txt';
-				AElements[ j ].href			= window.URL.createObjectURL( new Blob( [ GenerateIepg( Prog )], { type: 'text/plain' }));
-				AElements[ j ].downloadurl	= [ 'text/plain', AElements[ j ].download, AElements[ j ].href ].join( ':' );
-			}
-		}
+		SetIepgButton( Prog, AElements, ErrorMsg );
 	}
+}
+
+// 1番組ページ
+function OverwriteProg(){
+	var Prog = IepgHeader();
+	
+	var ProgElement = document.getElementsByClassName( "container column2" );
+	var Dd = ProgElement[ 0 ].getElementsByTagName( "dd" );
+	var ErrorMsg;
+	
+	for( var i = 0; i < Dd.length; ++i ){
+		console.log( i + ":" + Dd[ i ].textContent );
+	}
+	
+	Prog[ 'program-title' ]	= Dd[ 0 ].textContent.replace( /\s*ウェブ検索\s*/, '' );
+	SetProgNameDate( Prog,
+		Dd[ 1 ].textContent.replace( /(.*\d+:\d+).*/s, '$1' ) + "\n" +
+		Dd[ 2 ].textContent, ErrorMsg
+	);
+	
+	// 適当にユニークそうな数字を ID に
+	if(( "" + window.location ).match( /(\d+)\.action/ )){
+		Prog[ 'program-id' ]	= RegExp.$1;
+	}
+	
+	// 「おまかせ」を iEPG ボタンに変更
+	var AElements = ProgElement[ 0 ].getElementsByTagName( 'a' );
+	SetIepgButton( Prog, AElements, ErrorMsg );
 }
 
 function FormatNum( n ){
 	return n >= 10 ? ( +n ) : "0" + ( +n );
+}
+
+// iEPG header
+function IepgHeader(){
+	return {
+		"Content-type": "application/x-tv-program-digital-info; charset=utf-8",
+		version: 2
+	};
+}
+
+// 日時・放送局のパース
+function SetProgNameDate( Prog, DateTimeCh, ErrorMsg ){
+	
+	console.log( "hoge:" + DateTimeCh );
+	
+	DateTimeCh.match( /(\d+)\/(\d+).*?(\d+):(\d+).*?(\d+):(\d+).*?\n\s*(.*)/ );
+	
+	Prog[ 'station-name' ]	= RegExp.$7;
+	Prog.station	= ''; // 暫定
+	Prog.year		= ''; // 暫定
+	Prog.month		= FormatNum( RegExp.$1 );
+	Prog.date		= FormatNum( RegExp.$2 );
+	Prog.start		= FormatNum( RegExp.$3 ) + ":" + FormatNum( RegExp.$4 );
+	Prog.end		= FormatNum( RegExp.$5 ) + ":" + FormatNum( RegExp.$6 );
+	
+	// year 設定
+	var ProgTime	= new Date();
+	Prog.year		= ProgTime.getYear() + 1900;
+	ProgTime.setMonth( Prog.month );	// 本来 -1 だが，年月日が 1ヶ月以上過去なら，来年の月日とみなす
+	ProgTime.setDate( Prog.date );
+	
+	if( ProgTime < ( new Date )) ++Prog.year;
+	
+	// Station ID 取得
+	Prog[ 'station-name' ] = Prog[ 'station-name' ]
+		.replace( /^\s+/, '' )
+		.replace( /\s*\(Ch\.\d+\)\s*$/, '' )
+		.replace( /\s+$/, '' );
+	
+	var Id = GetServiceID( Prog[ 'station-name' ]);
+	if( Id ){
+		Prog.station	= Id;
+	}else{
+		ErrorMsg = "「" + Prog[ 'station-name' ] + "」の Service ID が不明です";
+		console.error( ErrorMsg );
+	}
+}
+
+// iEPG リンク作成
+function SetIepgButton( Prog, AElements, ErrorMsg ){
+	
+	for( var i = 0; i < AElements.length; ++i ){
+		if( AElements[ i ].getAttribute( 'title' ) == 'おまかせ!番組サーチを設定' ){
+			AElements[ i ].textContent	= ErrorMsg ? ( "!!! Error !!! " + ErrorMsg ) : '【iEPG】';
+			AElements[ i ].download		= 'iepg.tvpid';
+			AElements[ i ].href			= window.URL.createObjectURL( new Blob( [ GenerateIepg( Prog )], { type: 'text/plain' }));
+			AElements[ i ].downloadurl	= [ 'text/plain', AElements[ i ].download, AElements[ i ].href ].join( ':' );
+			break;
+		}
+	}
 }
 
 // iEPG ファイル生成
@@ -555,4 +607,9 @@ function GetServiceID( Name ){
 	return Id;
 }
 
-OverwriteSearchList();
+// メイン処理起動
+if(( '' + window.location ).indexOf( "schedulesBySearch" ) >= 0 ){
+	OverwriteSearchList();
+}else{
+	OverwriteProg();
+}
