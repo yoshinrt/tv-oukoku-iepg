@@ -608,8 +608,8 @@ function GetServiceID( Name ){
 }
 
 // メイン処理起動
-if(( '' + window.location ).indexOf( "schedulesBySearch" ) >= 0 ){
-	OverwriteSearchList();
-}else{
+if(( '' + window.location ).indexOf( "/schedule/" ) >= 0 ){
 	OverwriteProg();
+}else{
+	OverwriteSearchList();
 }
