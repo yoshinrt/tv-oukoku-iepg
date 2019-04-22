@@ -478,7 +478,7 @@ function FormatNum( n ){
 // iEPG header
 function IepgHeader(){
 	return {
-		"Content-type": "application/x-tv-program-digital-info; charset=utf-8",
+		"Content-type": "application/x-tv-program-digital-info; charset=shift_jis",
 		version: 2
 	};
 }
@@ -535,6 +535,12 @@ function SetIepgButton( Prog, AElements, ErrorMsg ){
 	}
 }
 
+function Str2Array( str ){
+	var array = [], i, il = str.length;
+	for( i = 0; i < il; i++ ) array.push( str.charCodeAt( i ));
+	return new Uint8Array( array );
+};
+
 // iEPG ファイル生成
 function GenerateIepg( Prog ){
 	var Ret = '';
@@ -543,7 +549,8 @@ function GenerateIepg( Prog ){
 		Ret += key + ": " + Prog[ key ] + "\n";
 	}
 	
-	return Ret;
+	// SJIS に変換
+	return Str2Array( ECL.convert( unescape( encodeURIComponent( Ret )), 'SJIS', 'UTF8' ));
 }
 
 // 放送局名→サービス ID テーブル生成
