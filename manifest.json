@@ -7,5 +7,10 @@
 	"content_scripts": [{
 		"matches": [ "https://tv.so-net.ne.jp/schedulesBySearch.*", "https://tv.so-net.ne.jp/m/schedulesByFilter.*", "https://tv.so-net.ne.jp/schedule/*" ],
 		"js": ["ecl_array.min.js", "content_script.js"]
-	}]
+	}],
+	"icons": {
+		"16": "icon16.png",
+		"48": "icon48.png",
+		"128": "icon128.png"
+	}
 }
