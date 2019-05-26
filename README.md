@@ -2,6 +2,10 @@
 
 2019/3/1 をもって iEPG が廃止された[テレビ王国](https://tv.so-net.ne.jp/)に，iEPG ダウンロードを追加する Google Chrome 拡張です．
 
+## インストール
+
+[Chrome ウェブストア](https://chrome.google.com/webstore/detail/テレビ王国-iepg-ジェネレータ/fpomphhggieemehenfmgjagdeejajafg?hl=ja&gl=JP) にアクセスし，Chrome に拡張機能を追加してください．
+
 ## 使い方
 
 - 番組表，番組詳細情報，番組検索結果 ページに，「iEPG」リンクを追加します．このリンクをクリックすることで，*.tvpid がダウンロードされます．
