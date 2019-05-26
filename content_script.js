@@ -486,7 +486,7 @@ function IepgHeader(){
 // 日時・放送局のパース
 function SetProgNameDate( Prog, DateTimeCh, ErrorMsg ){
 	
-	console.log( "hoge:" + DateTimeCh );
+	console.log( "DateTimeCh:" + DateTimeCh );
 	
 	DateTimeCh.match( /(\d+)\/(\d+).*?(\d+):(\d+).*?(\d+):(\d+).*?\n\s*(.*)/ );
 	
@@ -526,10 +526,13 @@ function SetIepgButton( Prog, AElements, ErrorMsg ){
 	
 	for( var i = 0; i < AElements.length; ++i ){
 		if( AElements[ i ].getAttribute( 'title' ) == 'おまかせ!番組サーチを設定' ){
-			AElements[ i ].textContent	= ErrorMsg ? ( "!!! Error !!! " + ErrorMsg ) : '【iEPG】';
+			AElements[ i ].textContent	= ErrorMsg ? ( "!!! Error !!! " + ErrorMsg ) : '　iEPG　';
 			AElements[ i ].download		= 'iepg.tvpid';
 			AElements[ i ].href			= window.URL.createObjectURL( new Blob( [ GenerateIepg( Prog )], { type: 'text/plain' }));
 			AElements[ i ].downloadurl	= [ 'text/plain', AElements[ i ].download, AElements[ i ].href ].join( ':' );
+			AElements[ i ].title		= "iEPG データをダウンロード";
+			AElements[ i ].style		= "color:white; background-color: #056BCD";
+			
 			break;
 		}
 	}
