@@ -412,7 +412,7 @@ function OverwriteSearchList(){
 	var ProgElements = document.getElementsByClassName( 'utileList' ); // utileList bl も対象
 	
 	for( var i = 0; i < ProgElements.length; ++i ){
-		var ErrorMsg = '';
+		var ErrorMsg;
 		
 		var Prog = IepgHeader();
 		
@@ -433,7 +433,7 @@ function OverwriteSearchList(){
 			( DateTimeCh = DateTimeCh[ 0 ]) &&
 			( DateTimeCh = DateTimeCh.textContent )
 		){
-			SetProgNameDate( Prog, DateTimeCh, ErrorMsg );
+			ErrorMsg = SetProgNameDate( Prog, DateTimeCh );
 		}else{
 			ErrorMsg = "HTML フォーマットを認識できません";
 		}
@@ -456,9 +456,9 @@ function OverwriteProg(){
 	}
 	
 	Prog[ 'program-title' ]	= Dd[ 0 ].textContent.replace( /\s*ウェブ検索\s*/, '' );
-	SetProgNameDate( Prog,
+	ErrorMsg = SetProgNameDate( Prog,
 		Dd[ 1 ].textContent.replace( /(.*\d+:\d+).*/s, '$1' ) + "\n" +
-		Dd[ 2 ].textContent, ErrorMsg
+		Dd[ 2 ].textContent
 	);
 	
 	// 適当にユニークそうな数字を ID に
@@ -484,11 +484,13 @@ function IepgHeader(){
 }
 
 // 日時・放送局のパース
-function SetProgNameDate( Prog, DateTimeCh, ErrorMsg ){
+function SetProgNameDate( Prog, DateTimeCh ){
 	
 	console.log( "DateTimeCh:" + DateTimeCh );
 	
-	DateTimeCh.match( /(\d+)\/(\d+).*?(\d+):(\d+).*?(\d+):(\d+).*?\n\s*(.*)/ );
+	if( DateTimeCh.match( /(\d+)\/(\d+).*?(\d+):(\d+).*?(\d+):(\d+).*?\n\s*(.*)/ ) == null ){
+		return "HTML フォーマットを認識できません";
+	}
 	
 	Prog[ 'station-name' ]	= RegExp.$7;
 	Prog.station	= ''; // 暫定
@@ -513,17 +515,16 @@ function SetProgNameDate( Prog, DateTimeCh, ErrorMsg ){
 		.replace( /\s+$/, '' );
 	
 	var Id = GetServiceID( Prog[ 'station-name' ]);
-	if( Id ){
-		Prog.station	= Id;
-	}else{
-		ErrorMsg = "「" + Prog[ 'station-name' ] + "」の Service ID が不明です";
-		console.error( ErrorMsg );
+	if( Id === undefined ){
+		return "「" + Prog[ 'station-name' ] + "」の Service ID が不明です";
 	}
+	Prog.station	= Id;
 }
 
 // iEPG リンク作成
 function SetIepgButton( Prog, AElements, ErrorMsg ){
 	
+	console.log( "ErrorMsg:" + ErrorMsg );
 	for( var i = 0; i < AElements.length; ++i ){
 		if( AElements[ i ].getAttribute( 'title' ) == 'おまかせ!番組サーチを設定' ){
 			AElements[ i ].textContent	= ErrorMsg ? ( "!!! Error !!! " + ErrorMsg ) : '　iEPG　';
