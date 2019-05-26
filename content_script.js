@@ -407,14 +407,122 @@ DFS0F838	沖縄テレビ（ＯＴＶ）
 
 //console.log( Object.keys( ServiceID ).join( " " ));
 
-// 番組リスト取得
+// iEPG オブジェクト /////////////////////////////////////////////////////////
+
+function Iepg(){
+	this[ "Content-type" ]	= "application/x-tv-program-digital-info; charset=shift_jis";
+	this.version			= 2;
+	this.station			= '';
+	this[ "station-name" ]	= '';
+	this.year				= 0;
+	this.month				= 0;
+	this.date				= 0;
+	this.start				= '';
+	this.end				= '';
+}
+
+// 放送局のパース
+Iepg.prototype.SetStation = function( Station ){
+	
+	// Station ID 取得
+	this[ 'station-name' ] = Station
+		.replace( /^\s+/, '' )
+		.replace( /\s*\(Ch\.\d+\)\s*$/, '' )
+		.replace( /\s+$/, '' );
+	
+	var Id = GetServiceID( this[ 'station-name' ]);
+	if( Id === undefined ){
+		this.ErrorMsg = "「" + this[ 'station-name' ] + "」の Service ID が不明です";
+	}
+	this.station	= Id;
+}
+
+// prog-id 下 12 桁から開始日時を設定
+Iepg.prototype.SetStart = function( ProgID ){
+	
+	if( ProgID ) this[ 'program-id' ] = ProgID;
+	
+	if( this[ 'program-id' ].match( /(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})$/ )){
+		this.year	= RegExp.$1;
+		this.month	= RegExp.$2;
+		this.date	= RegExp.$3;
+		this.start	= RegExp.$4 + ':' + RegExp.$5;
+	}else{
+		this.ErrorMsg = "program-id から開始日時を認識できません";
+	}
+}
+
+// 終了時刻設定
+Iepg.prototype.SetEnd = function( Time ){
+	if( Time.match( /\d+:\d+.*?(\d+:\d+)/ )){
+		this.end = RegExp.$1.length < 5 ? '0' + RegExp.$1 : RegExp.$1;
+	}else{
+		this.ErrorMsg = "終了時刻を認識できません";
+	}
+}
+
+// iEPG ファイル生成
+function Str2Array( str ){
+	var array = [], i, il = str.length;
+	for( i = 0; i < il; i++ ) array.push( str.charCodeAt( i ));
+	return new Uint8Array( array );
+};
+
+Iepg.prototype.GetFile = function(){
+	
+	var Ret = '';
+	
+	for( var key in this ){
+		if( typeof( this[ key ] ) != 'function' ) Ret += key + ": " + this[ key ] + "\n";
+	}
+	
+	//console.log( Ret );
+	
+	// SJIS に変換
+	return Str2Array( ECL.convert( unescape( encodeURIComponent( Ret )), 'SJIS', 'UTF8' ));
+}
+
+// iEPG リンク作成
+Iepg.prototype.CreateLink = function(){
+	var Element;
+	
+	if( this.ErrorMsg ){
+		var Element = document.createElement( 'span' );
+		console.log( "ErrorMsg:" + this.ErrorMsg );
+		
+		Element.textContent = "★Error: " + this.ErrorMsg;
+		Element.setAttribute( 'style', "color:white; background-color: red" );
+	}else{
+		var Element = document.createElement( 'a' );
+		
+		Element.textContent = 'iEPG';
+		Element.setAttribute( 'download',		'iepg.tvpid' );
+		Element.setAttribute( 'href',			window.URL.createObjectURL( new Blob( [ this.GetFile()], { type: 'text/plain' })));
+		Element.setAttribute( 'downloadurl',	[ 'text/plain', Element.download, Element.href ].join( ':' ));
+		Element.setAttribute( 'title',			"iEPG データをダウンロード" );
+		Element.setAttribute( 'style',			"color:white; background-color: #056BCD" );
+	}
+	
+	return Element;
+}
+
+// おまかせ番組サーチ を iEPG ボタンに変更
+Iepg.prototype.SetButton = function( AElements ){
+	for( var i = 0; i < AElements.length; ++i ){
+		if( AElements[ i ].getAttribute( 'title' ) == 'おまかせ!番組サーチを設定' ){
+			this.CreateLink( AElements[ i ] );
+			break;
+		}
+	}
+}
+
+// 番組検索ページ ////////////////////////////////////////////////////////////
+
 function OverwriteSearchList(){
 	var ProgElements = document.getElementsByClassName( 'utileList' ); // utileList bl も対象
 	
 	for( var i = 0; i < ProgElements.length; ++i ){
-		var ErrorMsg;
-		
-		var Prog = IepgHeader();
+		var Prog = new Iepg();
 		
 		var AElements = ProgElements[ i ].getElementsByTagName( 'a' );
 		
@@ -423,29 +531,30 @@ function OverwriteSearchList(){
 		
 		// 適当にユニークそうな数字を ID に
 		if( AElements[ 0 ].href.match( /(\d+)/ )){
-			Prog[ 'program-id' ]	= RegExp.$1;
+			Prog.SetStart( RegExp.$1 );
 		}
 		
 		// 放送時間・CH
 		var DateTimeCh;
 		if(
-			( DateTimeCh = ProgElements[ i ].getElementsByClassName( "utileListProperty" )) &&
-			( DateTimeCh = DateTimeCh[ 0 ]) &&
-			( DateTimeCh = DateTimeCh.textContent )
+			( DateTimeCh = ProgElements[ i ].getElementsByClassName( "utileListProperty" )[ 0 ] ) &&
+			DateTimeCh.textContent.match( /\d:\d.*?\n(.*)/ )
 		){
-			ErrorMsg = SetProgNameDate( Prog, DateTimeCh );
+			Prog.SetStation( RegExp.$1 );
+			Prog.SetEnd( DateTimeCh.textContent );
 		}else{
 			ErrorMsg = "HTML フォーマットを認識できません";
 		}
 		
-		// 「おまかせ」を iEPG ボタンに変更
-		SetIepgButton( Prog, AElements, ErrorMsg );
+		// iEPG ボタン追加
+		ProgElements[ i ].getElementsByClassName( 'utileListIcon' )[ 0 ].appendChild( Prog.CreateLink());
 	}
 }
 
-// 1番組ページ
-function OverwriteProg(){
-	var Prog = IepgHeader();
+// 1番組ページ ///////////////////////////////////////////////////////////////
+
+function OverwriteOneProg(){
+	var Prog = new Iepg();
 	
 	var ProgElement = document.getElementsByClassName( "container column2" );
 	var Dd = ProgElement[ 0 ].getElementsByTagName( "dd" );
@@ -455,107 +564,81 @@ function OverwriteProg(){
 		console.log( i + ":" + Dd[ i ].textContent );
 	}
 	
-	Prog[ 'program-title' ]	= Dd[ 0 ].textContent.replace( /\s*ウェブ検索\s*/, '' );
-	ErrorMsg = SetProgNameDate( Prog,
-		Dd[ 1 ].textContent.replace( /(.*\d+:\d+).*/s, '$1' ) + "\n" +
-		Dd[ 2 ].textContent
-	);
-	
 	// 適当にユニークそうな数字を ID に
 	if(( "" + window.location ).match( /(\d+)\.action/ )){
-		Prog[ 'program-id' ]	= RegExp.$1;
+		Prog.SetStart( RegExp.$1 );
 	}
 	
-	// 「おまかせ」を iEPG ボタンに変更
-	var AElements = ProgElement[ 0 ].getElementsByTagName( 'a' );
-	SetIepgButton( Prog, AElements, ErrorMsg );
-}
-
-function FormatNum( n ){
-	return n >= 10 ? ( +n ) : "0" + ( +n );
-}
-
-// iEPG header
-function IepgHeader(){
-	return {
-		"Content-type": "application/x-tv-program-digital-info; charset=shift_jis",
-		version: 2
-	};
-}
-
-// 日時・放送局のパース
-function SetProgNameDate( Prog, DateTimeCh ){
+	Prog[ 'program-title' ]	= Dd[ 0 ].textContent.replace( /\s*ウェブ検索\s*/, '' );
+	Prog.SetStation( Dd[ 2 ].textContent );
+	Prog.SetEnd( Dd[ 1 ].textContent );
 	
-	console.log( "DateTimeCh:" + DateTimeCh );
+	// iEPG ボタン追加
+	ProgElement[ 0 ].getElementsByClassName( 'utileListIcon basicTxt' )[ 0 ].appendChild( Prog.CreateLink());
+}
+
+// 番組表ページ /////////////////////////////////////////////////////////
+
+function OverwriteProgTable(){
 	
-	if( DateTimeCh.match( /(\d+)\/(\d+).*?(\d+):(\d+).*?(\d+):(\d+).*?\n\s*(.*)/ ) == null ){
-		return "HTML フォーマットを認識できません";
+	var Doc = document.getElementById( 'chartColumn' );
+	if( Doc == null ){
+		console.log( "番組表なし" );
+		return;
 	}
 	
-	Prog[ 'station-name' ]	= RegExp.$7;
-	Prog.station	= ''; // 暫定
-	Prog.year		= ''; // 暫定
-	Prog.month		= FormatNum( RegExp.$1 );
-	Prog.date		= FormatNum( RegExp.$2 );
-	Prog.start		= FormatNum( RegExp.$3 ) + ":" + FormatNum( RegExp.$4 );
-	Prog.end		= FormatNum( RegExp.$5 ) + ":" + FormatNum( RegExp.$6 );
+	Doc = Doc.getElementsByTagName( "div" );
+	var Station;
+	var PrevProgTag;
 	
-	// year 設定
-	var ProgTime	= new Date();
-	Prog.year		= ProgTime.getYear() + 1900;
-	ProgTime.setMonth( Prog.month );	// 本来 -1 だが，年月日が 1ヶ月以上過去なら，来年の月日とみなす
-	ProgTime.setDate( Prog.date );
-	
-	if( ProgTime < ( new Date )) ++Prog.year;
-	
-	// Station ID 取得
-	Prog[ 'station-name' ] = Prog[ 'station-name' ]
-		.replace( /^\s+/, '' )
-		.replace( /\s*\(Ch\.\d+\)\s*$/, '' )
-		.replace( /\s+$/, '' );
-	
-	var Id = GetServiceID( Prog[ 'station-name' ]);
-	if( Id === undefined ){
-		return "「" + Prog[ 'station-name' ] + "」の Service ID が不明です";
-	}
-	Prog.station	= Id;
-}
-
-// iEPG リンク作成
-function SetIepgButton( Prog, AElements, ErrorMsg ){
-	
-	console.log( "ErrorMsg:" + ErrorMsg );
-	for( var i = 0; i < AElements.length; ++i ){
-		if( AElements[ i ].getAttribute( 'title' ) == 'おまかせ!番組サーチを設定' ){
-			AElements[ i ].textContent	= ErrorMsg ? ( "!!! Error !!! " + ErrorMsg ) : '　iEPG　';
-			AElements[ i ].download		= 'iepg.tvpid';
-			AElements[ i ].href			= window.URL.createObjectURL( new Blob( [ GenerateIepg( Prog )], { type: 'text/plain' }));
-			AElements[ i ].downloadurl	= [ 'text/plain', AElements[ i ].download, AElements[ i ].href ].join( ':' );
-			AElements[ i ].title		= "iEPG データをダウンロード";
-			AElements[ i ].style		= "color:white; background-color: #056BCD";
+	for( var i = 0; i < Doc.length; ++i ){
+		
+		// 放送局
+		if( Doc[ i ].getAttribute( "class" ) == "cell-station cell-top" ){
+			Station = Doc[ i ].title;
+			console.log( "Station:" + Station );
+			PrevProgTag = undefined;
+		}
+		
+		// 番組
+		else if(
+			Doc[ i ].getAttribute( "class" ).match( /^cell-schedule\b/ )){
+			var ProgName =
+				Doc[ i ].getElementsByClassName( "schedule-title" )[ 0 ] ||
+				Doc[ i ].getElementsByClassName( "schedule-titleC" )[ 0 ];
 			
-			break;
+			if( ProgName !== undefined ){
+				console.log( "ProgName:" + ProgName.textContent );
+				
+				// id
+				Doc[ i ].getAttribute( "id" ).match( /(\d+)/ );
+				var Id = RegExp.$1;
+				
+				// 前の番組の終了時刻が決定
+				if( PrevProgTag && Id.match( /(\d{2})(\d{2})$/ )){
+					Prog.end = RegExp.$1 + ':' + RegExp.$2;
+					
+					// リンク生成
+					PrevProgTag.appendChild( document.createElement( 'br' ));
+					PrevProgTag.appendChild( Prog.CreateLink());
+				}
+				
+				// iEPG データ生成
+				var Prog = new Iepg();
+				
+				// 番組タイトル
+				Prog[ 'program-title' ]	= ProgName.textContent;
+				Prog.SetStation( Station );
+				Prog.SetStart( Id );
+				
+				// iEPG ボタン挿入場所
+				PrevProgTag = Doc[ i ].getElementsByClassName( "schedule-link" )[ 0 ];
+			}
 		}
 	}
 }
 
-function Str2Array( str ){
-	var array = [], i, il = str.length;
-	for( i = 0; i < il; i++ ) array.push( str.charCodeAt( i ));
-	return new Uint8Array( array );
-};
-
-// iEPG ファイル生成
-function GenerateIepg( Prog ){
-	var Ret = '';
-	
-	for( var key in Prog ){
-		Ret += key + ": " + Prog[ key ] + "\n";
-	}
-	
-	// SJIS に変換
-	return Str2Array( ECL.convert( unescape( encodeURIComponent( Ret )), 'SJIS', 'UTF8' ));
-}
+/////////////////////////////////////////////////////////////////////////
 
 // 放送局名→サービス ID テーブル生成
 function MakeServiceIdTbl( str ){
@@ -618,9 +701,15 @@ function GetServiceID( Name ){
 	return Id;
 }
 
-// メイン処理起動
+// メイン処理起動 ////////////////////////////////////////////////////////////
+
 if(( '' + window.location ).indexOf( "/schedule/" ) >= 0 ){
-	OverwriteProg();
-}else{
+	OverwriteOneProg();
+}else if(
+	( '' + window.location ).indexOf( "/schedulesBySearch." ) >= 0 ||
+	( '' + window.location ).indexOf( "/schedulesByFilter." ) >= 0
+){
 	OverwriteSearchList();
+}else{
+	OverwriteProgTable();
 }
