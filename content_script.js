@@ -663,6 +663,7 @@ function RegularizeStationName( Name ){
 	return Name.replace( /[\s　・]/g, '' )
 		.replace( /チャンネル/g, "CH" )
 		.replace( /最新ドラマ音楽映画/, "" )
+		.replace( /ドラマアニメ音楽ライブ/, "" )
 		.replace(
 			/[Ａ-Ｚａ-ｚ０-９！”＃＄％＆’（）＊＋，－．／：；＜＝＞？＠［￥］＾＿‘｛｜｝￣]/g,
 			function( s ){
