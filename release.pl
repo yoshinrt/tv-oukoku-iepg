@@ -34,3 +34,5 @@ if( $PrevRev != $Rev ){	# rev ”Ô†‚É·ˆÙ‚ª‚ ‚é
 	print( $fpOut $_ );
 	close();
 }
+
+system( "zip -9 release.zip *.js *.png *.json" );
