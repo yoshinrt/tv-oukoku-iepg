@@ -506,16 +506,6 @@ Iepg.prototype.CreateLink = function(){
 	return Element;
 }
 
-// おまかせ番組サーチ を iEPG ボタンに変更
-Iepg.prototype.SetButton = function( AElements ){
-	for( var i = 0; i < AElements.length; ++i ){
-		if( AElements[ i ].getAttribute( 'title' ) == 'おまかせ!番組サーチを設定' ){
-			this.CreateLink( AElements[ i ] );
-			break;
-		}
-	}
-}
-
 // 番組検索ページ ////////////////////////////////////////////////////////////
 
 function OverwriteSearchList(){
