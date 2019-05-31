@@ -104,14 +104,14 @@ CSDT294	ホームドラマチャンネル
 CSDT295	MONDO　TV
 CSDT296	ＴＢＳチャンネル１
 CSDT297	ＴＢＳチャンネル２
-CSDT298	テレ朝チャンネル１ ドラマ・バラエティ・アニメ
-CSDT299	テレ朝チャンネル２ ニュース・情報・スポーツ
+CSDT298	テレ朝チャンネル１
+CSDT299	テレ朝チャンネル２
 CSDT300	日テレプラス
 CSDT301	エンタメ～テレHD☆シネドラバラエティ	エンタメ〜テレ☆シネドラバラエティ
-CSDT305	チャンネル銀河 歴史ドラマ・サスペンス・日本のうた
-CSDT307	フジテレビＯＮＥ スポーツ・バラエティ
-CSDT308	フジテレビＴＷＯ ドラマ・アニメ
-CSDT309	フジテレビＮＥＸＴ ライブ・プレミアム
+CSDT305	チャンネル銀河
+CSDT307	フジテレビＯＮＥ
+CSDT308	フジテレビＴＷＯ
+CSDT309	フジテレビＮＥＸＴ
 CSDT310	Super！drama TV　HD	スーパー！ドラマＴＶ
 CSDT311	ＡＸＮ
 CSDT312	ＦＯＸ
@@ -650,10 +650,10 @@ function MakeServiceIdTbl( str ){
 
 // 放送局名正規化
 function RegularizeStationName( Name ){
-	return Name.replace( /[\s　・]/g, '' )
+	return Name
+		.replace( /[ 　]\S+・\S+$/, '' )
+		.replace( /[\s　・]/g, '' )
 		.replace( /チャンネル/g, "CH" )
-		.replace( /最新ドラマ音楽映画/, "" )
-		.replace( /ドラマアニメ音楽ライブ/, "" )
 		.replace(
 			/[Ａ-Ｚａ-ｚ０-９！”＃＄％＆’（）＊＋，－．／：；＜＝＞？＠［￥］＾＿‘｛｜｝￣]/g,
 			function( s ){
@@ -670,7 +670,7 @@ function GetServiceID( Name ){
 	var RegularizedName = RegularizeStationName( Name );
 	var Id = ServiceID[ RegularizedName ];
 	
-	//console.log( Name + ":" + RegularizedName + ":" + Id );
+	console.log( Name + ":" + RegularizedName + ":" + Id );
 	
 	if( Id ) return Id;	// テーブルに載っていたら return
 	
@@ -681,7 +681,7 @@ function GetServiceID( Name ){
 			Key.indexOf( RegularizedName ) >= 0 ||
 			RegularizedName.indexOf( Key ) >= 0
 		){
-			//console.log( "match:" + RegularizedName + ":" + Key );
+			console.log( "match:" + RegularizedName + ":" + Key );
 			if( Id ){
 				// 2つ以上にマッチしたので，undefined
 				return undefined;
