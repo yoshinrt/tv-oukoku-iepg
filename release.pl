@@ -35,4 +35,7 @@ if( $PrevRev != $Rev ){	# rev ”Ô†‚É·ˆÙ‚ª‚ ‚é
 	close();
 }
 
-system( "zip -9 release.zip *.js *.png *.json" );
+system( << '-----' );
+rm -f release.zip
+zip -9 release.zip *.js *.png *.json
+-----
