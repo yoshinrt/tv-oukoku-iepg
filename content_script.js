@@ -1,6 +1,6 @@
-﻿/*
-● .tvpid フォーマット 参考: https://350ml.net/labo/iepg2.html
-*/
+﻿// .tvpid フォーマット 参考: https://350ml.net/labo/iepg2.html
+
+var SelectedArea = '';
 
 var ServiceID = MakeServiceIdTbl(( function (){/*
 /// BS https://www.yuhisa.com/tv/bs-list/
@@ -165,49 +165,49 @@ DFS02800	ＮＨＫ総合・札幌
 DFS02808	ＮＨＫ教育・札幌
 DFS02810	ＨＢＣ札幌
 DFS02818	ＳＴＶ札幌
-DFS02820	ＨＴＢ札幌
+DFS02820	ＨＴＢ札幌	北海道文化放送・札幌
 DFS02828	ＵＨＢ札幌
 DFS02830	ＴＶＨ札幌
 DFS02C00	ＮＨＫ総合・函館
 DFS02C08	ＮＨＫ教育・函館
 DFS02C10	ＨＢＣ函館
 DFS02C18	ＳＴＶ函館
-DFS02C20	ＨＴＢ函館
+DFS02C20	ＨＴＢ函館	北海道文化放送・函館
 DFS02C28	ＵＨＢ函館
 DFS02C30	ＴＶＨ函館
 DFS03000	ＮＨＫ総合・旭川
 DFS03008	ＮＨＫ教育・旭川
 DFS03010	ＨＢＣ旭川
 DFS03018	ＳＴＶ旭川
-DFS03020	ＨＴＢ旭川
+DFS03020	ＨＴＢ旭川	北海道文化放送・旭川
 DFS03028	ＵＨＢ旭川
 DFS03030	ＴＶＨ旭川
 DFS03400	ＮＨＫ総合・帯広
 DFS03408	ＮＨＫ教育・帯広
 DFS03410	ＨＢＣ帯広
 DFS03418	ＳＴＶ帯広
-DFS03420	ＨＴＢ帯広
+DFS03420	ＨＴＢ帯広	北海道文化放送・帯広
 DFS03428	ＵＨＢ帯広
 DFS03430	ＴＶＨ帯広
 DFS03800	ＮＨＫ総合・釧路
 DFS03808	ＮＨＫ教育・釧路
 DFS03810	ＨＢＣ釧路
 DFS03818	ＳＴＶ釧路
-DFS03820	ＨＴＢ釧路
+DFS03820	ＨＴＢ釧路	北海道文化放送・釧路
 DFS03828	ＵＨＢ釧路
 DFS03830	ＴＶＨ釧路
 DFS03C00	ＮＨＫ総合・北見
 DFS03C08	ＮＨＫ教育・北見
 DFS03C10	ＨＢＣ北見
 DFS03C18	ＳＴＶ北見
-DFS03C20	ＨＴＢ北見
+DFS03C20	ＨＴＢ北見	北海道文化放送・北見
 DFS03C28	ＵＨＢ北見
 DFS03C30	ＴＶＨ北見
 DFS04000	ＮＨＫ総合・室蘭
 DFS04008	ＮＨＫ教育・室蘭
 DFS04010	ＨＢＣ室蘭
 DFS04018	ＳＴＶ室蘭
-DFS04020	ＨＴＢ室蘭
+DFS04020	ＨＴＢ室蘭	北海道文化放送・室蘭
 DFS04028	ＵＨＢ室蘭
 DFS04030	ＴＶＨ室蘭
 DFS04400	ＮＨＫ総合・仙台
@@ -493,6 +493,8 @@ Iepg.prototype.CreateLink = function(){
 function OverwriteSearchList(){
 	var ProgElements = document.getElementsByClassName( 'utileList' ); // utileList bl も対象
 	
+	GetArea();
+	
 	for( var i = 0; i < ProgElements.length; ++i ){
 		var Prog = new Iepg();
 		
@@ -528,6 +530,8 @@ function OverwriteSearchList(){
 function OverwriteOneProg(){
 	var Prog = new Iepg();
 	
+	GetArea();
+	
 	var ProgElement = document.getElementsByClassName( "container column2" );
 	var Dd = ProgElement[ 0 ].getElementsByTagName( "dd" );
 	var ErrorMsg;
@@ -558,6 +562,8 @@ function OverwriteProgTable(){
 		console.log( "番組表なし" );
 		return;
 	}
+	
+	GetArea();
 	
 	Doc = Doc.getElementsByTagName( "div" );
 	var Station;
@@ -610,6 +616,14 @@ function OverwriteProgTable(){
 	}
 }
 
+// 地域取得 //////////////////////////////////////////////////////////////////
+
+function GetArea(){
+	var Select = document.getElementById( "area-selector" );
+	SelectedArea = Select.options[ Select.selectedIndex ].text;
+	console.log( "Selected Area:" + SelectedArea );
+}
+
 /////////////////////////////////////////////////////////////////////////
 
 // 放送局名→サービス ID テーブル生成
@@ -632,7 +646,7 @@ function MakeServiceIdTbl( str ){
 
 // 放送局名正規化
 function RegularizeStationName( Name ){
-	return Name
+	Name = Name
 		.replace( /[ 　]\S+・\S+$/, '' )
 		.replace( /[\s　・]/g, '' )
 		.replace( /チャンネル/g, "CH" )
@@ -647,6 +661,16 @@ function RegularizeStationName( Name ){
 		.replace( /TV放送/, "TV" )
 		.replace( /NHK総合\d+/, "NHK総合" )
 		.replace( /NHK(?:Eテレ|教育)\d*/, "NHKEテレ" );
+	
+	// 北海道スペシャル
+	if(
+		( Name == 'HTB' || Name == "北海道文化放送" ) &&
+		SelectedArea.match( /北海道（(.*)）/ )
+	){
+		Name += RegExp.$1;
+	}
+	
+	return Name;
 }
 
 // ServiceID 取得
