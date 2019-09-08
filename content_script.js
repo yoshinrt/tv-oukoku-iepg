@@ -1,26 +1,4 @@
 ﻿/*
-●テレビ王国番組サーチの html ソース (検索)
-
-<div class="contBlockNB">
-	<div  id="schedule-200101201903032100">
-	</div>
-	<div class="utileList">
-		<h2><a href="/schedule/200101201903032100.action">BS1スペシャル「老いてなお　花となる　第二章～俳優・織本順吉92歳～」[字]</a></h2>
-		<p class="utileListProperty">
-			3/3 (日) 21:00 ～ 21:50            (50分) 
-			ＮＨＫ ＢＳ１(Ch.1)
-			<a href="/schedulesBySearch.action?condition.genres[0].id=108000&stationPlatformId=0">ドキュメンタリー／教養</a>
-		</p>
-		<div class="utileListIcon">
-			<span class="iepgBtn">
-				<a href="/m/filterAddingOpened.action?filter.keywords%5B0%5D.body=BS1%E3%82%B9%E3%83%9A%E3%82%B7%E3%83%A3%E3%83%AB" title="おまかせ!番組サーチを設定"><img src="/tv/digital/img/btn/btn_omakase_txt.gif" alt="おまかせ" /></a>
-			</span>
-		</div>
-	</div>
-
-●テレビ王国番組サーチの html ソース (1番組)
-
-
 ● .tvpid フォーマット 参考: https://350ml.net/labo/iepg2.html
 */
 
@@ -150,6 +128,8 @@ CSDT882	スカチャン1 4K
 CSDT883	スカチャン2 4K
 
 // 地デジ
+// http://soranikakaruhashi.blog.fc2.com/blog-entry-71.html
+
 DFS00400	ＮＨＫ総合・東京
 DFS00408	ＮＨＫ教育・東京
 DFS00410	日本テレビ
@@ -245,7 +225,7 @@ DFS04C00	ＮＨＫ総合・山形
 DFS04C08	ＮＨＫ教育・山形
 DFS04C10	ＹＢＣ山形放送
 DFS04C18	ＹＴＳ山形テレビ
-DFS04C20	テレビユー山形
+DFS04C20	テレビユー山形	TUY
 DFS04C28	さくらんぼテレビ
 DFS05000	ＮＨＫ総合・盛岡
 DFS05008	ＮＨＫ教育・盛岡
@@ -266,21 +246,23 @@ DFS05818	ＡＴＶ青森テレビ
 DFS05820	青森朝日放送
 DFS05C38	ＴＯＫＹＯ　ＭＸ
 DFS06038	ｔｖｋ
+DFS06400	ＮＨＫ総合・前橋
 DFS06438	群馬テレビ
 DFS06800	ＮＨＫ総合・水戸
 DFS06C38	チバテレビ
+DFS07000	ＮＨＫ総合・宇都宮
 DFS07038	とちぎテレビ
 DFS07438	テレ玉
 DFS07800	ＮＨＫ総合・長野
 DFS07808	ＮＨＫ教育・長野
-DFS07810	テレビ信州
+DFS07810	TSB	テレビ信州
 DFS07818	ａｂｎ長野朝日放送
 DFS07820	ＳＢＣ信越放送
 DFS07828	ＮＢＳ長野放送
 DFS07C00	ＮＨＫ総合・新潟
 DFS07C08	ＮＨＫ教育・新潟
 DFS07C10	ＢＳＮ
-DFS07C18	ＮＳＴ
+DFS07C18	ＮＳＴ	新潟総合テレビ
 DFS07C20	ＴｅＮＹテレビ新潟
 DFS07C28	新潟テレビ２１
 DFS08000	ＮＨＫ総合・甲府
@@ -292,28 +274,28 @@ DFS08430	テレビ愛知
 DFS08800	ＮＨＫ総合・金沢
 DFS08808	ＮＨＫ教育・金沢
 DFS08810	テレビ金沢
-DFS08818	北陸朝日放送
+DFS08818	HAB	北陸朝日放送
 DFS08820	ＭＲＯ
 DFS08828	石川テレビ
 DFS08C00	ＮＨＫ総合・静岡
 DFS08C08	ＮＨＫ教育・静岡
 DFS08C10	ＳＢＳ
 DFS08C18	テレビ静岡
-DFS08C20	だいいちテレビ
+DFS08C20	Daiichi-TV	だいいちテレビ
 DFS08C28	静岡朝日テレビ
 DFS09000	ＮＨＫ総合・福井
 DFS09008	ＮＨＫ教育・福井
-DFS09010	ＦＢＣテレビ
+DFS09010	ＦＢＣテレビ	福井放送
 DFS09018	福井テレビ
 DFS09400	ＮＨＫ総合・富山
 DFS09408	ＮＨＫ教育・富山
-DFS09410	ＫＮＢ北日本放送
+DFS09410	ＫＮＢ北日本放送	KNBTV
 DFS09418	ＢＢＴ富山テレビ
 DFS09420	チューリップテレビ
 DFS09800	ＮＨＫ総合・津
 DFS09830	三重テレビ
 DFS09C00	ＮＨＫ総合・岐阜
-DFS09C30	ギフチャン
+DFS09C30	ギフチャン	ぎふチャン
 DFS0A000	ＮＨＫ総合・大阪
 DFS0A030	テレビ大阪
 DFS0A400	ＮＨＫ総合・京都
@@ -321,7 +303,7 @@ DFS0A430	ＫＢＳ京都
 DFS0A800	ＮＨＫ総合・神戸
 DFS0A830	サンテレビ
 DFS0AC00	ＮＨＫ総合・和歌山
-DFS0AC30	テレビ和歌山
+DFS0AC30	WTV	テレビ和歌山
 DFS0B000	ＮＨＫ総合・奈良
 DFS0B030	奈良テレビ
 DFS0B400	ＮＨＫ総合・大津
@@ -331,7 +313,7 @@ DFS0B808	ＮＨＫ教育・広島
 DFS0B810	ＲＣＣテレビ
 DFS0B818	広島テレビ
 DFS0B820	広島ホームテレビ
-DFS0B828	ＴＳＳ
+DFS0B828	ＴＳＳ	テレビ新広島
 DFS0BC00	ＮＨＫ総合・岡山
 DFS0BC08	ＮＨＫ教育・岡山
 DFS0C000	ＮＨＫ総合・松江
@@ -340,7 +322,7 @@ DFS0C400	ＮＨＫ総合・鳥取
 DFS0C408	ＮＨＫ教育・鳥取
 DFS0C800	ＮＨＫ総合・山口
 DFS0C808	ＮＨＫ教育・山口
-DFS0C810	ＫＲＹ山口放送
+DFS0C810	ＫＲＹ山口放送	山口放送1
 DFS0C818	ｔｙｓテレビ山口
 DFS0C820	ｙａｂ山口朝日
 DFS0CC00	ＮＨＫ総合・松山
@@ -359,11 +341,11 @@ DFS0D808	ＮＨＫ教育・高知
 DFS0D810	高知放送
 DFS0D818	テレビ高知
 DFS0D820	さんさんテレビ
-DFS0DC00	ＮＨＫ総合・福岡
 DFS0DC00	ＮＨＫ総合・北九州
-DFS0DC08	ＮＨＫ教育・福岡
+DFS0DC00	ＮＨＫ総合・福岡
 DFS0DC08	ＮＨＫ教育・北九州
-DFS0DC10	ＫＢＣ九州朝日放送
+DFS0DC08	ＮＨＫ教育・福岡
+DFS0DC10	ＫＢＣ九州朝日放送	KBCTV
 DFS0DC18	ＲＫＢ毎日放送
 DFS0DC20	ＦＢＳ福岡放送
 DFS0DC28	ＴＶＱ九州放送
@@ -385,7 +367,7 @@ DFS0E808	ＮＨＫ教育・鹿児島
 DFS0E810	ＭＢＣ南日本放送
 DFS0E818	ＫＴＳ鹿児島テレビ
 DFS0E820	ＫＫＢ鹿児島放送
-DFS0E828	ＫＹＴ鹿児島読売ＴＶ
+DFS0E828	ＫＹＴ鹿児島読売ＴＶ	鹿児島讀賣テレビ
 DFS0EC00	ＮＨＫ総合・宮崎
 DFS0EC08	ＮＨＫ教育・宮崎
 DFS0EC10	ＭＲＴ宮崎放送
@@ -398,8 +380,8 @@ DFS0F020	ＯＡＢ大分朝日放送
 DFS0F400	ＮＨＫ総合・佐賀
 DFS0F408	ＮＨＫ教育・佐賀
 DFS0F410	ＳＴＳサガテレビ
-DFS0F800	ＮＨＫ総合・那覇
-DFS0F808	ＮＨＫ教育・那覇
+DFS0F800	ＮＨＫ総合・那覇	ＮＨＫ総合・沖縄
+DFS0F808	ＮＨＫ教育・那覇	ＮＨＫ教育・沖縄
 DFS0F810	ＲＢＣテレビ
 DFS0F820	ＱＡＢ琉球朝日放送
 DFS0F838	沖縄テレビ（ＯＴＶ）
@@ -654,6 +636,7 @@ function RegularizeStationName( Name ){
 		.replace( /[ 　]\S+・\S+$/, '' )
 		.replace( /[\s　・]/g, '' )
 		.replace( /チャンネル/g, "CH" )
+		.replace( /テレビ/g, "TV" )
 		.replace(
 			/[Ａ-Ｚａ-ｚ０-９！”＃＄％＆’（）＊＋，－．／：；＜＝＞？＠［￥］＾＿‘｛｜｝￣]/g,
 			function( s ){
@@ -661,6 +644,7 @@ function RegularizeStationName( Name ){
 			}
 		)
 		.toUpperCase()
+		.replace( /TV放送/, "TV" )
 		.replace( /NHK総合\d+/, "NHK総合" )
 		.replace( /NHK(?:Eテレ|教育)\d*/, "NHKEテレ" );
 }
@@ -686,7 +670,7 @@ function GetServiceID( Name ){
 				// 2つ以上にマッチしたので，undefined
 				return undefined;
 			}
-			ServiceID[ RegularizedName ] = Id = ServiceID[ Key ];
+			Id = ServiceID[ Key ];
 		}
 	}
 	return Id;
