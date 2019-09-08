@@ -1,6 +1,6 @@
 {
 	"name": "テレビ王国 iEPG ジェネレータ",
-	"description": "テレビ王国のサイトから iEPG を生成します",
+	"description": "テレビ王国のサイトから iEPG を生成します．",
 	
 	"version": "18",
 	"manifest_version": 2,
