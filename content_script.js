@@ -45,13 +45,17 @@ BSDT252	IMAGICA BS	シネフィルWOWOW
 BSDT255	BS日本映画専門Ch
 BSDT256	ディズニーチャンネル
 BSDT258	ディーライフ
-BSDT291	NHK総合・東京
-BSDT292	NHKEテレ東京
-BSDT294	日テレ
-BSDT295	テレビ朝日
-BSDT296	TBS
-BSDT297	テレビ東京
-BSDT298	フジテレビ
+
+// 難視聴対策 {
+//BSDT291	NHK総合・東京
+//BSDT292	NHKEテレ東京
+//BSDT294	日テレ
+//BSDT295	テレビ朝日
+//BSDT296	TBS
+//BSDT297	テレビ東京
+//BSDT298	フジテレビ
+// }
+
 BSDT531	放送大学ラジオ
 BSDT700	NHKデータ1
 BSDT701	NHKデータ2
@@ -132,9 +136,9 @@ CSDT883	スカチャン2 4K
 
 DFS00400	ＮＨＫ総合・東京
 DFS00408	ＮＨＫ教育・東京
-DFS00410	日本テレビ
+DFS00410	日本テレビ	日テレ
 DFS00418	ＴＢＳ
-DFS00420	フジテレビジョン
+DFS00420	フジテレビジョン	フジテレビ
 DFS00428	テレビ朝日
 DFS00430	テレビ東京
 DFS00440	放送大学
