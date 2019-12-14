@@ -13,8 +13,8 @@ BSDT151	BS朝日
 BSDT152	BS朝日2
 BSDT153	BS朝日3
 BSDT161	BS-TBS
-BSDT162	BS-TBS
-BSDT163	BS-TBS
+BSDT162	BS-TBS2
+BSDT163	BS-TBS3
 BSDT171	BSジャパン	ＢＳテレ東
 BSDT172	BSジャパン2
 BSDT173	BSジャパン3
@@ -640,7 +640,12 @@ function MakeServiceIdTbl( str ){
 			var tmp = List[ i ].split( /\t+/ );
 			
 			for( j = 1; j < tmp.length; ++j ){
-				Tbl[ RegularizeStationName( tmp[ j ])] = tmp[ 0 ];
+				var StationName = RegularizeStationName( tmp[ j ]);
+				if( Tbl[ StationName ] === undefined ){
+					Tbl[ StationName ] = tmp[ 0 ];
+				}else{
+					console.warn( "放送局名重複: " + StationName );
+				}
 			}
 		}
 	}
