@@ -521,7 +521,7 @@ function OverwriteSearchList(){
 			Prog.SetStation( RegExp.$1 );
 			Prog.SetEnd( DateTimeCh.textContent );
 		}else{
-			ErrorMsg = "HTML フォーマットを認識できません";
+			Prog.ErrorMsg = "HTML フォーマットを認識できません";
 		}
 		
 		// iEPG ボタン追加
@@ -538,7 +538,6 @@ function OverwriteOneProg(){
 	
 	var ProgElement = document.getElementsByClassName( "container column2" );
 	var Dd = ProgElement[ 0 ].getElementsByTagName( "dd" );
-	var ErrorMsg;
 	
 	for( var i = 0; i < Dd.length; ++i ){
 		console.log( i + ":" + Dd[ i ].textContent );
