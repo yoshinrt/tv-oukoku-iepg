@@ -152,11 +152,15 @@ DFS00C10	東海テレビ
 DFS00C18	ＣＢＣ
 DFS00C20	メ～テレ
 DFS00C28	中京テレビ
-DFS01010	ＨＢＣ北海道放送
-DFS01018	ＳＴＶ札幌テレビ
-DFS01020	ＨＴＢ北海道テレビ
-DFS01028	ＵＨＢ
-DFS01030	ＴＶＨ
+
+// どの地域で有効なのかわからない．とりあえず外す {
+//DFS01010	ＨＢＣ北海道放送
+//DFS01018	ＳＴＶ札幌テレビ
+//DFS01020	ＨＴＢ北海道テレビ
+//DFS01028	ＵＨＢ
+//DFS01030	ＴＶＨ
+// }
+
 DFS01410	ＲＮＣ西日本テレビ
 DFS01418	ＫＳＢ瀬戸内海放送
 DFS01420	ＲＳＫテレビ
@@ -167,50 +171,50 @@ DFS01818	ＢＳＳテレビ
 DFS01820	日本海テレビ
 DFS02800	ＮＨＫ総合・札幌
 DFS02808	ＮＨＫ教育・札幌
-DFS02810	ＨＢＣ札幌
-DFS02818	ＳＴＶ札幌
+DFS02810	ＨＢＣ札幌	HBC北海道放送・札幌
+DFS02818	ＳＴＶ札幌	札幌テレビ・札幌
 DFS02820	ＨＴＢ札幌
 DFS02828	ＵＨＢ札幌	北海道文化放送・札幌
 DFS02830	ＴＶＨ札幌
 DFS02C00	ＮＨＫ総合・函館
 DFS02C08	ＮＨＫ教育・函館
-DFS02C10	ＨＢＣ函館
-DFS02C18	ＳＴＶ函館
+DFS02C10	ＨＢＣ函館	HBC北海道放送・函館
+DFS02C18	ＳＴＶ函館	札幌テレビ・函館
 DFS02C20	ＨＴＢ函館
 DFS02C28	ＵＨＢ函館	北海道文化放送・函館
 DFS02C30	ＴＶＨ函館
 DFS03000	ＮＨＫ総合・旭川
 DFS03008	ＮＨＫ教育・旭川
-DFS03010	ＨＢＣ旭川
-DFS03018	ＳＴＶ旭川
+DFS03010	ＨＢＣ旭川	HBC北海道放送・旭川
+DFS03018	ＳＴＶ旭川	札幌テレビ・旭川
 DFS03020	ＨＴＢ旭川
 DFS03028	ＵＨＢ旭川	北海道文化放送・旭川
 DFS03030	ＴＶＨ旭川
 DFS03400	ＮＨＫ総合・帯広
 DFS03408	ＮＨＫ教育・帯広
-DFS03410	ＨＢＣ帯広
-DFS03418	ＳＴＶ帯広
+DFS03410	ＨＢＣ帯広	HBC北海道放送・帯広
+DFS03418	ＳＴＶ帯広	札幌テレビ・帯広
 DFS03420	ＨＴＢ帯広
 DFS03428	ＵＨＢ帯広	北海道文化放送・帯広
 DFS03430	ＴＶＨ帯広
 DFS03800	ＮＨＫ総合・釧路
 DFS03808	ＮＨＫ教育・釧路
-DFS03810	ＨＢＣ釧路
-DFS03818	ＳＴＶ釧路
+DFS03810	ＨＢＣ釧路	HBC北海道放送・釧路
+DFS03818	ＳＴＶ釧路	札幌テレビ・釧路
 DFS03820	ＨＴＢ釧路
 DFS03828	ＵＨＢ釧路	北海道文化放送・釧路
 DFS03830	ＴＶＨ釧路
 DFS03C00	ＮＨＫ総合・北見
 DFS03C08	ＮＨＫ教育・北見
-DFS03C10	ＨＢＣ北見
-DFS03C18	ＳＴＶ北見
+DFS03C10	ＨＢＣ北見	HBC北海道放送・北見
+DFS03C18	ＳＴＶ北見	札幌テレビ・北見
 DFS03C20	ＨＴＢ北見
 DFS03C28	ＵＨＢ北見	北海道文化放送・北見
 DFS03C30	ＴＶＨ北見
 DFS04000	ＮＨＫ総合・室蘭
 DFS04008	ＮＨＫ教育・室蘭
-DFS04010	ＨＢＣ室蘭
-DFS04018	ＳＴＶ室蘭
+DFS04010	ＨＢＣ室蘭	HBC北海道放送・室蘭
+DFS04018	ＳＴＶ室蘭	札幌テレビ・室蘭
 DFS04020	ＨＴＢ室蘭
 DFS04028	ＵＨＢ室蘭	北海道文化放送・室蘭
 DFS04030	ＴＶＨ室蘭
@@ -671,22 +675,23 @@ function RegularizeStationName( Name ){
 		.replace( /NHK総合\d+/, "NHK総合" )
 		.replace( /NHK(?:Eテレ|教育)\d*/, "NHKEテレ" );
 	
-	// 北海道スペシャル
-	if(
-		( Name == 'HTB' || Name == "北海道文化放送" ) &&
-		SelectedArea.match( /北海道（(.*)）/ )
-	){
-		Name += RegExp.$1;
-	}
-	
 	return Name;
 }
 
 // ServiceID 取得
 function GetServiceID( Name ){
-	var RegularizedName = RegularizeStationName( Name );
-	var Id = ServiceID[ RegularizedName ];
 	
+	var RegularizedName = RegularizeStationName( Name );
+	
+	// 北海道スペシャル
+	if(
+		!RegularizedName.match( /NHK/ ) &&
+		SelectedArea.match( /北海道（(.*)）/ )
+	){
+		RegularizedName += RegExp.$1;
+	}
+	
+	var Id = ServiceID[ RegularizedName ];
 	console.log( Name + ":" + RegularizedName + ":" + Id );
 	
 	if( Id ) return Id;	// テーブルに載っていたら return
