@@ -35,7 +35,5 @@ if( $PrevRev != $Rev ){	# rev ”Ô†‚É·ˆÙ‚ª‚ ‚é
 	close();
 }
 
-system( << '-----' );
-rm -f release.zip
-zip -9 release.zip *.js *.png *.json
------
+unlink( 'release.zip' );
+system( 'zip -9 release.zip *.js *.png *.json' );
