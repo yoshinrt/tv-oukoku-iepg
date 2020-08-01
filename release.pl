@@ -1,6 +1,5 @@
 #!/usr/bin/perl -w
 # SCRIPTER_OPT=-S6
-# .tab=4
 
 $File = 'manifest.json';
 
@@ -32,8 +31,7 @@ if( $PrevRev != $Rev ){	# rev ”Ô†‚É·ˆÙ‚ª‚ ‚é
 	
 	open( $fpOut, "> ${File}" );
 	print( $fpOut $_ );
-	close();
+	close( $fpOut );
 }
 
-unlink( 'release.zip' );
-system( 'zip -9 release.zip *.js *.png *.json' );
+system( 'rm -f release.zip; zip -9 release.zip *.js *.png *.json' );
