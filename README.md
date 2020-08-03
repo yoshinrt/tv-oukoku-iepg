@@ -1,6 +1,6 @@
 # tv-oukoku-iepg 
 
-2019/2/28 をもって iEPG が廃止された[テレビ王国](https://tv.so-net.ne.jp/)に，iEPG ダウンロードを追加する Google Chrome 拡張です．
+2019/2/28 をもって iEPG が廃止された[テレビ王国](https://www.tvkingdom.jp/)に，iEPG ダウンロードを追加する Google Chrome 拡張です．
 
 ## インストール
 
