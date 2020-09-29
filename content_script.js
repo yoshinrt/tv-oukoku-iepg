@@ -120,7 +120,7 @@ CSDT351	TBS NEWS
 CSDT353	ＢＢＣワールドニュース
 CSDT354	ＣＮＮｊ
 CSDT363	囲碁・将棋チャンネル
-CSDT800	スカサカ！
+CSDT800	スカサカ！	スポーツライブ＋
 CSDT801	スカチャン １
 CSDT821	J SPORTS 1 (4K)
 CSDT822	J SPORTS 2 (4K)
