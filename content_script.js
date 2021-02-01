@@ -553,9 +553,10 @@ function OverwriteOneProg(){
 		Prog.SetStart( RegExp.$1 );
 	}
 	
-	Prog[ 'program-title' ]	= Dd[ 0 ].textContent.replace( /\s*ウェブ検索\s*/, '' );
-	Prog.SetStation( Dd[ 2 ].textContent );
-	Prog.SetEnd( Dd[ 1 ].textContent );
+	Prog[ 'program-title' ]	= ProgElement[ 0 ].getElementsByClassName( "basicContTitle" )[ 0 ].textContent;
+	console.log( "title=" + Prog[ 'program-title' ] );
+	Prog.SetStation( Dd[ 1 ].textContent );
+	Prog.SetEnd( Dd[ 0 ].textContent );
 	
 	// iEPG ボタン追加
 	ProgElement[ 0 ].getElementsByClassName( 'utileListIcon basicTxt' )[ 0 ].appendChild( Prog.CreateLink());
