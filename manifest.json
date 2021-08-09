@@ -2,7 +2,7 @@
 	"name": "テレビ王国 iEPG ジェネレータ",
 	"description": "テレビ王国のサイトから iEPG を生成します．",
 	
-	"version": "36",
+	"version": "37",
 	"manifest_version": 2,
 	"content_scripts": [{
 		"matches": [ "https://www.tvkingdom.jp/*" ],

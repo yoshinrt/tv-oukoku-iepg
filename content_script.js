@@ -686,7 +686,7 @@ function GetServiceID( Name ){
 	
 	// 北海道スペシャル
 	if(
-		!RegularizedName.match( /NHK/ ) &&
+		RegularizedName.match( /HBC|札幌TV|HTB|TVH|北海道文化放送/ ) &&
 		SelectedArea.match( /北海道（(.*)）/ )
 	){
 		RegularizedName += RegExp.$1;
