@@ -45,6 +45,9 @@ BSDT252	IMAGICA BS	シネフィルWOWOW	WOWOWプラス
 BSDT255	BS日本映画専門Ch
 BSDT256	ディズニーチャンネル
 BSDT258	ディーライフ
+BSDT260	BS松竹東急
+BSDT263	BSJapanext
+BSDT265	BSよしもと
 
 // 難視聴対策 {
 //BSDT291	NHK総合・東京
