@@ -455,13 +455,6 @@ Iepg.prototype.SetEnd = function( Time ){
 	}
 }
 
-// iEPG ファイル生成
-function Str2Array( str ){
-	var array = [], i, il = str.length;
-	for( i = 0; i < il; i++ ) array.push( str.charCodeAt( i ));
-	return new Uint8Array( array );
-};
-
 Iepg.prototype.GetFile = function(){
 	
 	var Ret = '';
@@ -473,7 +466,10 @@ Iepg.prototype.GetFile = function(){
 	//console.log( Ret );
 	
 	// SJIS に変換
-	return Str2Array( ECL.convert( unescape( encodeURIComponent( Ret )), 'SJIS', 'UTF8' ));
+	return new Uint8Array( Encoding.convert(
+		Encoding.stringToCode( Ret ),
+		{ from: 'UNICODE', to: 'SJIS' }
+	));
 }
 
 // iEPG リンク作成

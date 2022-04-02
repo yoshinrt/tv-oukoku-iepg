@@ -17,3 +17,13 @@
 ## 既知の問題
 
 - 番組表形式で最下部に位置する番組の iEPG ボタンは表示されません．
+
+## 使用ライブラリのライセンスに関する表示
+
+### encoding.js
+
+```
+Copyright (c) 2012 polygonplanet
+Released under the MIT license
+https://github.com/YukinobuKurata/YouTubeMagicBuyButton/blob/master/MIT-LICENSE.txt
+```
