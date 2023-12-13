@@ -4,10 +4,10 @@
 $File = 'manifest.json';
 
 # git リビジョンを得る
-$Rev = +`git log --oneline | wc -l`;
+$Rev = 0 + `git log --oneline | wc -l`;
 
 # git 更新されているかを得る
-$ModCnt = +`git diff --stat | wc -l`;
+$ModCnt = 0 + `git diff --stat | wc -l`;
 ++$Rev if( $ModCnt > 0 );
 
 # xml 全リード
