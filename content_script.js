@@ -4,7 +4,7 @@ var SelectedArea = '';
 
 var ServiceID = MakeServiceIdTbl(( function (){/*
 /// BS https://www.yuhisa.com/tv/bs-list/
-BSDT101	NHKBS1
+BSDT101	NHKBS
 BSDT103	NHKBSプレミアム
 BSDT141	BS日テレ
 BSDT142	BS日テレ2
@@ -98,7 +98,7 @@ CSDT307	フジテレビＯＮＥ
 CSDT308	フジテレビＴＷＯ
 CSDT309	フジテレビＮＥＸＴ
 CSDT310	Super！drama TV　HD	スーパー！ドラマＴＶ
-CSDT311	ＡＸＮ
+CSDT311	ＡＸＮ	アクションチャンネル
 CSDT312	ＦＯＸ
 CSDT314	女性チャンネル♪LaLa ＴＶ
 CSDT316	ＡＸＮミステリー
