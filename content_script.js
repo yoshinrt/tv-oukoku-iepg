@@ -540,11 +540,11 @@ function OverwriteOneProg(){
 	
 	GetArea();
 	
-	var ProgElement = document.getElementsByClassName( "container column2" );
-	var Dd = ProgElement[ 0 ].getElementsByTagName( "dd" );
+	var ProgElement = document.getElementsByClassName( "contBlock utileSetting" );
+	var Element = ProgElement[ 0 ].getElementsByTagName( "dd" );
 	
-	for( var i = 0; i < Dd.length; ++i ){
-		console.log( i + ":" + Dd[ i ].textContent );
+	for( var i = 0; i < Element.length; ++i ){
+		console.log( i + ":" + Element[ i ].textContent );
 	}
 	
 	// 適当にユニークそうな数字を ID に
@@ -553,12 +553,24 @@ function OverwriteOneProg(){
 	}
 	
 	Prog[ 'program-title' ]	= ProgElement[ 0 ].getElementsByClassName( "basicContTitle" )[ 0 ].textContent;
-	Prog.SetStation( Dd[ 1 ].textContent );
-	Prog.SetEnd( Dd[ 0 ].textContent );
+	Prog.SetStation( Element[ 1 ].textContent );
+	
+	Prog.SetEnd( ProgElement[ 0 ].textContent );
+	
 	console.log( Prog );
 	
 	// iEPG ボタン追加
-	ProgElement[ 0 ].getElementsByClassName( 'basicTxt' )[ 0 ].appendChild( Prog.CreateLink());
+	Element = ProgElement[ 0 ].getElementsByClassName( 'basicTxt' );
+	
+	if( Element.length >= 1 ){
+		Element[ 0 ].appendChild( Prog.CreateLink());
+	}else{
+		dd = document.createElement( 'dd' );
+		Element = ProgElement[ 0 ].getElementsByClassName( 'scheduleinfodetail' )
+		Element[ 0 ].appendChild( dd );
+		dd.appendChild( Prog.CreateLink());
+		console.log("len:" + Element[0].length)
+	}
 }
 
 // 番組表ページ /////////////////////////////////////////////////////////
