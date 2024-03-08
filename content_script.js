@@ -99,7 +99,7 @@ CSDT308	フジテレビＴＷＯ
 CSDT309	フジテレビＮＥＸＴ
 CSDT310	Super！drama TV　HD	スーパー！ドラマＴＶ
 CSDT311	ＡＸＮ	アクションチャンネル
-CSDT312	ＦＯＸ
+CSDT312	ＦＯＸ	Dlife
 CSDT314	女性チャンネル♪LaLa ＴＶ
 CSDT316	ＡＸＮミステリー
 CSDT317	ＫＢＳ　Ｗｏｒｌｄ
